@@ -7,11 +7,14 @@ export default async function DashboardPage() {
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   )
 
-  const { data: tweets } = await supabase
+  const { data: tweets, error } = await supabase
     .from('processed_tweets')
     .select('*, drafts(*)')
     .order('created_at', { ascending: false })
     .limit(50)
+
+  console.log('Dashboard tweets:', JSON.stringify(tweets))
+  console.log('Dashboard error:', JSON.stringify(error))
 
   return <DashboardClient tweets={tweets ?? []} />
 }
