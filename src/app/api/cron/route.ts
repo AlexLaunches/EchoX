@@ -21,14 +21,16 @@ export async function GET(request: Request) {
     for (const niche of niches) {
       try {
         const response = await fetchListTweets(niche.list_id, niche.since_id)
-        console.log('List response:', JSON.stringify(response))
         if (!response.data || response.data.length === 0) continue
+        console.log('Total tweets fetched:', response.data.length)
+        const original = response.data.filter(isOriginalPost)
+        console.log('After filter:', original.length)
+        console.log('Sample filtered tweet:', JSON.stringify(original[0]))
 
         results.listsChecked++
 
         const users = response.includes?.users ?? []
-        const original = response.data.filter(isOriginalPost)
-        const top3 = original.slice(0, 3)
+        const top3 = response.data.filter(isOriginalPost).slice(0, 3)
 
         if (response.meta?.newest_id) {
           await supabase.from('niches').update({
