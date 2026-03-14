@@ -7,6 +7,7 @@ export async function POST(request: Request) {
 
     const oauth = await buildOAuthHeader('POST', 'https://api.twitter.com/2/tweets')
 
+    const tweetUrl = `https://x.com/i/web/status/${tweetId}`
     const res = await fetch('https://api.twitter.com/2/tweets', {
       method: 'POST',
       headers: {
@@ -14,8 +15,7 @@ export async function POST(request: Request) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        text: draftText,
-        reply: { in_reply_to_tweet_id: tweetId },
+        text: `${draftText} ${tweetUrl}`,
       }),
     })
 
