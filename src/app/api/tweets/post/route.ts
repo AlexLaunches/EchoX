@@ -21,6 +21,7 @@ export async function POST(request: Request) {
 
     if (!res.ok) {
       const err = await res.text()
+      console.error('X API post error:', err)
       return Response.json({ error: err }, { status: 500 })
     }
 
@@ -32,6 +33,7 @@ export async function POST(request: Request) {
 
     return Response.json({ success: true })
   } catch (e: any) {
+    console.error('Post route error:', e.message)
     return Response.json({ error: e.message }, { status: 500 })
   }
 }
