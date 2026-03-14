@@ -21,6 +21,7 @@ export async function GET(request: Request) {
     for (const niche of niches) {
       try {
         const response = await fetchListTweets(niche.list_id, niche.since_id)
+        console.log('List response:', JSON.stringify(response))
         if (!response.data || response.data.length === 0) continue
 
         results.listsChecked++
