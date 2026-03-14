@@ -81,6 +81,7 @@ export function isOriginalPost(tweet: any): boolean {
   if (tweet.text.startsWith('RT @')) return false
   if (tweet.text.startsWith('@')) return false
   if (tweet.referenced_tweets?.some((r: any) => r.type === 'retweeted')) return false
+  if (tweet.referenced_tweets?.every((r: any) => r.type === 'replied_to')) return false
   return true
 }
 
