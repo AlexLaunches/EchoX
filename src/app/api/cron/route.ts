@@ -22,10 +22,7 @@ export async function GET(request: Request) {
       try {
         const response = await fetchListTweets(niche.list_id, niche.since_id)
         if (!response.data || response.data.length === 0) continue
-        console.log('Total tweets fetched:', response.data.length)
         const original = response.data.filter(isOriginalPost)
-        console.log('After filter:', original.length)
-        console.log('Sample filtered tweet:', JSON.stringify(original[0]))
 
         results.listsChecked++
 

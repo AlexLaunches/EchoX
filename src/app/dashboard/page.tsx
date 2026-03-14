@@ -15,8 +15,7 @@ export default async function DashboardPage() {
     .order('created_at', { ascending: false })
     .limit(50)
 
-  console.log('Dashboard tweets:', JSON.stringify(tweets))
-  console.log('Dashboard error:', JSON.stringify(error))
+  if (error) console.error('Dashboard error:', error.message)
 
   return <DashboardClient tweets={tweets ?? []} />
 }
