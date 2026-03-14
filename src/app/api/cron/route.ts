@@ -27,9 +27,9 @@ export async function GET(request: Request) {
 
         const users = response.includes?.users ?? []
         const original = response.data.filter(isOriginalPost)
-        const top3 = original.sort((a: any, b: any) => engagementScore(b) - engagementScore(a)).slice(0, 3)
+        const top3 = original.slice(0, 3)
 
-        if (top3.length > 0) {
+        if (response.meta?.newest_id) {
           await supabase.from('niches').update({
             since_id: response.meta?.newest_id,
             last_fetched_at: new Date().toISOString()
