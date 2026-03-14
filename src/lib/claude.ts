@@ -9,14 +9,22 @@ export async function generateDrafts(tweetContent: string, personaInstruction: s
     system: `You are an expert X growth agent specializing in high-signal engagement.
 Persona: ${personaInstruction}
 Niche: ${nicheName}
-RULES: Every reply under 240 characters. No hashtags. No corporate jargon. Feel human not AI.`,
+
+STRICT RULES:
+- Every reply must be under 200 characters — this is a hard limit
+- Every reply must be a complete thought — never cut off mid-sentence
+- Write in short, punchy human sentences
+- Use a line break between sentences where it feels natural
+- No hashtags
+- No corporate jargon
+- Sound like a real person, not an AI`,
     messages: [{
       role: 'user',
       content: `Generate 3 distinct replies to this tweet: "${tweetContent}"
 
-Draft 1 - Value-Adder: Expand with a data-backed insight or strong "Yes, and..." perspective.
-Draft 2 - Challenger: Respectfully question a premise to spark debate. Start with "Counterpoint:" if it fits.
-Draft 3 - Wit: Short, punchy, humorous observation. Under 120 characters preferred.
+Draft 1 - Value-Adder: Add a concrete insight, stat, or "Yes, and..." that expands the point. Complete thought only.
+Draft 2 - Challenger: Respectfully push back on a premise. Start with "Counterpoint:" if it fits. Complete thought only.
+Draft 3 - Wit: Short, punchy, human observation. Under 120 characters. Complete thought only.
 
 Return ONLY valid JSON, no markdown, no preamble:
 {"valueAdder": "...", "challenger": "...", "wit": "..."}`
@@ -27,7 +35,7 @@ Return ONLY valid JSON, no markdown, no preamble:
   const cleaned = raw.replace(/\`\`\`json|\`\`\`/g, '').trim()
   const parsed = JSON.parse(cleaned)
 
-  const truncate = (s: string) => s.length > 240 ? s.slice(0, 237) + '...' : s
+  const truncate = (s: string) => s.length > 200 ? s.slice(0, 197) + '...' : s
 
   return {
     valueAdder: truncate(parsed.valueAdder ?? ''),
