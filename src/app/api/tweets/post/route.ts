@@ -15,7 +15,7 @@ export async function POST(request: Request) {
       },
       body: JSON.stringify({
         text: draftText,
-        quote_tweet_id: tweetId,
+        reply: { in_reply_to_tweet_id: tweetId },
       }),
     })
 
